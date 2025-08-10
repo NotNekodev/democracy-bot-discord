@@ -13,6 +13,8 @@ const client = new Client({
     intents: [GatewayIntentBits.Guilds]
 });
 
+module.exports = client;
+
 client.commands = new Collection();
 
 // Load command files
