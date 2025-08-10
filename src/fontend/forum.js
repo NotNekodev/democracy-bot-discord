@@ -1,13 +1,15 @@
 require('dotenv').config();
 const { Act, RuleChangeAct, RuleChangeCategory } = require('../act.js');
 const client = require('../index.js')
+const config = require('../config');
+const db = require('../utils/sqlite_shit.js');
 
 module.exports = {
     VOTE_FORUM_CHANNEL_ID: process.env.VOTE_FORUM_CHANNEL_ID,
 
     create_thread: async function (act) {
         if (act instanceof RuleChangeAct) {
-            const channel = client.channels.cache.get(this.VOTE_FORUM_CHANNEL_ID);
+            const channel = client.channels.cache.get(config.get_config().modules.votes.votes_channel);
             try {
                 let title;
                 const user = await client.users.fetch(act.getUserID());
@@ -31,6 +33,20 @@ module.exports = {
                     },
 
                 });
+
+                await db.create_vote(
+                    thread.id, thread.id, //no poll message yet
+                    act.getUserID(),
+                    0,
+                    act.getCategory(),
+                    title,
+                    act.getTitle(),
+                    act.getDescription(),
+                    "",
+                    "",
+                    ""
+                )
+
             } catch (error) {
                 console.error(`Failed to create thread for act: ${act.getTitle()}`, error);
                 throw error;

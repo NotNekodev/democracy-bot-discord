@@ -40,7 +40,7 @@ async function prepare_db(){
 
     db.exec(`
         CREATE TABLE IF NOT EXISTS rules (
-            id INTEGER PRIMARY KEY,
+            id INTEGER AUTO_INCREMENT PRIMARY KEY,
             title TEXT,
             description TEXT,
             UNIQUE(id)
@@ -58,7 +58,7 @@ async function prepare_db(){
     prepared_statements["seal_vote"] = await db.prepare("UPDATE votes SET sealed = true, deletion_date = ?, final_verdict = ? WHERE msg_id = ?");
     prepared_statements["delete_vote"] = await db.prepare("DELETE FROM votes WHERE msg_id = ?");
 
-    prepared_statements["add_rule"] = await db.prepare("INSERT INTO rules (id, title, description) VALUES (?, ?, ?)");
+    prepared_statements["add_rule"] = await db.prepare("INSERT INTO rules (title, description) VALUES (?, ?)");
     prepared_statements["get_rules"] = await db.prepare("SELECT * FROM rules");
     prepared_statements["delete_rule"] = await db.prepare("DELETE FROM rules WHERE id = ?");
 }
@@ -103,8 +103,8 @@ async function delete_vote(msg_id){
     await prepared_statements["delete_vote"].run(msg_id);
 }
 
-async function add_rule(id, title, description){
-    await prepared_statements["add_rule"].run(id, title, description);
+async function add_rule(title, description){
+    await prepared_statements["add_rule"].run(title, description);
 }
 
 async function get_rules(){

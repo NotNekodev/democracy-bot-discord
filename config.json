@@ -21,7 +21,7 @@
         },
         "votes": {
             "enabled": true,
-            "votes-channel": "channel-id-here",
+            "votes_channel": "1404101693846847539",
             "request_change_rep": 1000
         }
     }

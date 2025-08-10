@@ -1,6 +1,6 @@
 const { ModalBuilder, SlashCommandBuilder, Events, StringSelectMenuBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
 const client = require('../index.js');
-const pinis = require('../fontend/forum.js');
+const penis = require('../fontend/forum.js');
 const { RuleChangeAct, RuleChangeCategory } = require('../act.js');
 
 module.exports = {
@@ -109,8 +109,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
         act = new RuleChangeAct(ruleChangeInfo.title, ruleChangeInfo.description, ruleChangeInfo.timestamp, ruleChangeInfo.initiator, changeType1);
 
-        await pinis.create_thread(act);
-
+        await penis.create_thread(act);
     }
 
 });
