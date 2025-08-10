@@ -1,11 +1,14 @@
 require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
+const db = require('./utils/sqlite_shit.js');
 const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const config = require('./config');
 
 config.load_config();
 console.log(config.get_config());
+
+db.prepare_db();
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
