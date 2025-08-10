@@ -1,5 +1,7 @@
 const { ModalBuilder, SlashCommandBuilder, Events, StringSelectMenuBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js')
 const client = require('../index.js');
+const pinis = require('../fontend/forum.js');
+const { RuleChangeAct, RuleChangeCategory } = require('../act.js');
 
 module.exports = {
     data: new SlashCommandBuilder().setName('request-rule-change').setDescription('Request a rule change to the server'),
@@ -22,11 +24,6 @@ module.exports = {
                     label: 'Change an existing rule',
                     value: 'change-rule',
                     description: 'Request a change to an existing rule'
-                },
-                {
-                    label: '[[ BIG SHOT ]]',
-                    value: 'big-shot',
-                    description: 'Request a big shot'
                 },
             ]);
 
@@ -94,6 +91,25 @@ client.on(Events.InteractionCreate, async interaction => {
         await channel.send({
             content: `New rule change request:\n**Type:** ${ruleChangeInfo.type}\n**Title:** ${ruleChangeInfo.title}\n**Description:** ${ruleChangeInfo.description}\n**Initiator:** <@${ruleChangeInfo.initiator}>\n**Timestamp:** <t:${ruleChangeInfo.timestamp}:F>`
         });
+
+        let changeType1;
+        switch (changeType) {
+            case 'add-rule':
+                changeType1 = RuleChangeCategory.ADD;
+                break;
+            case 'remove-rule':
+                changeType1 = RuleChangeCategory.REMOVE;
+                break;
+            case 'change-rule':
+                changeType1 = RuleChangeCategory.UPDATE;
+                break;
+            default:
+                throw new Error('Invalid change type');
+        }
+
+        act = new RuleChangeAct(ruleChangeInfo.title, ruleChangeInfo.description, ruleChangeInfo.timestamp, ruleChangeInfo.initiator, changeType1);
+
+        await pinis.create_thread(act);
 
     }
 

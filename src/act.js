@@ -4,17 +4,6 @@ const RuleChangeCategory = Object.freeze({
     UPDATE: 'cat-rule-update'
 })
 
-class RuleChangeAct extends Act {
-    constructor(title, description, timestamp, userID, category) {
-        super(title, description, timestamp, userID);
-        this.category = category;
-    }
-
-    getCategory() {
-        return this.category;
-    }
-}
-
 class Act {
     constructor(title, description, timestamp, userID) {
         this.title = title;
@@ -47,6 +36,17 @@ class Act {
     userIDToDiscordMention() {
         const str = "<@" + this.userID + ">";
         return str;
+    }
+}
+
+class RuleChangeAct extends Act {
+    constructor(title, description, timestamp, userID, category) {
+        super(title, description, timestamp, userID);
+        this.category = category;
+    }
+
+    getCategory() {
+        return this.category;
     }
 }
 
