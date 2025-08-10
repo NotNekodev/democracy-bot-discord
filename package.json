@@ -20,6 +20,7 @@
   "homepage": "https://github.com/NotNekodev/democracy-bot-discord#readme",
   "dependencies": {
     "discord.js": "^14.21.0",
-    "dotenv": "^17.2.1"
+    "dotenv": "^17.2.1",
+    "sqlite-async": "^1.2.2"
   }
 }

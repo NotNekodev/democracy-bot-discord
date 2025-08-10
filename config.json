@@ -1,0 +1,28 @@
+{
+    "admins": [
+        "user-id-here"
+    ],
+    "starting-rep": 100,
+    "modules" : {
+        "roles_manager": {
+            "enabled": true,
+            "promote_rep": 100,
+            "demote_rep": 100,
+            "add_managed_role_rep": 100,
+            "remove_managed_role_rep": 100
+        },
+        "rules_manager": {
+            "enabled": true,
+            "rules-channel": "channel-id-here",
+            "rules-message": "",
+            "add_rep": 1000,
+            "mod_rep": 500,
+            "remove_rep": 7000
+        },
+        "votes": {
+            "enabled": true,
+            "votes-channel": "channel-id-here",
+            "request_change_rep": 1000
+        }
+    }
+}
