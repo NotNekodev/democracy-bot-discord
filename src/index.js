@@ -7,8 +7,6 @@ const config = require('./config');
 config.load_config();
 console.log(config.get_config());
 
-return;
-
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
 });
