@@ -10,7 +10,6 @@ function load_config() {
     var file_contents = fs.readFileSync("config.json").toString();
 
     config = JSON.parse(file_contents);
-    console.log(config);
 }
 
 function reserialize_config() {
