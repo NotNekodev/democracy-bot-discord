@@ -4,6 +4,7 @@ const path = require('node:path');
 const db = require('./utils/sqlite_shit.js');
 const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const config = require('./config');
+const handle_poll_end = require('./handling/poll_handling.js')
 
 config.load_config();
 db.prepare_db();
@@ -106,5 +107,18 @@ client.on('guildMemberAdd', async member => {
     }
 
 });
+
+client.on('messageUpdate', async (oldMessage, newMessage) => {
+    if (!newMessage.poll) return;
+
+    if (oldMessage.poll?.resultsFinalized && newMessage.poll?.resultsFinalized) {
+        if (db.get_vote(newMessage.id)) {
+            console.log(`Poll ${newMessage.id} has ended.`);
+            handle_poll_end(newMessage);
+        } else {
+            console.warn("Poll " + newMessage.id + " was updated but no vote found in the database.");
+        }
+    }
+})
 
 client.login(process.env.BOT_TOKEN);
