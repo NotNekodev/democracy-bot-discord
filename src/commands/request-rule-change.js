@@ -87,10 +87,6 @@ client.on(Events.InteractionCreate, async interaction => {
         console.log('Rule change request info:', ruleChangeInfo);
 
         // send message with the info in the channel the command was run from
-        const channel = interaction.channel;
-        await channel.send({
-            content: `New rule change request:\n**Type:** ${ruleChangeInfo.type}\n**Title:** ${ruleChangeInfo.title}\n**Description:** ${ruleChangeInfo.description}\n**Initiator:** <@${ruleChangeInfo.initiator}>\n**Timestamp:** <t:${ruleChangeInfo.timestamp}:F>`
-        });
 
         let changeType1;
         switch (changeType) {

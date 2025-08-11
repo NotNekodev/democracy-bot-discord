@@ -3,6 +3,7 @@ const { Act, RuleChangeAct, RuleChangeCategory } = require('../act.js');
 const client = require('../index.js')
 const config = require('../config');
 const db = require('../utils/sqlite_shit.js');
+const { PollLayoutType } = require('discord.js');
 
 module.exports = {
     VOTE_FORUM_CHANNEL_ID: process.env.VOTE_FORUM_CHANNEL_ID,
@@ -34,10 +35,27 @@ module.exports = {
 
                 });
 
+                // create poll
+                const thread_channel = await client.channels.fetch(thread.id);
+
+                const poll = await thread_channel.send({
+                    poll: {
+                        question: { text: `pepis` },
+                        answers: [
+                            { text: 'Yes', emoji: '🔴' },
+                            { text: 'No', emoji: '🟢' }
+                        ],
+                        allowMultiselect: false,
+                        duration: 24, // hours
+                        layoutType: PollLayoutType.Default,
+                    }
+                })
+
+
                 await db.create_vote(
-                    thread.id, thread.id, //no poll message yet
+                    poll.id, thread.id,
                     act.getUserID(),
-                    0,
+                    ((((Math.floor(Date.now() / 1000)) * 60) * 60) * 24),
                     act.getCategory(),
                     title,
                     act.getTitle(),

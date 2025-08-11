@@ -3,7 +3,7 @@
         "user-id-here"
     ],
     "starting-rep": 100,
-    "modules" : {
+    "modules": {
         "roles_manager": {
             "enabled": true,
             "promote_rep": 100,
@@ -22,7 +22,13 @@
         "votes": {
             "enabled": true,
             "votes_channel": "1404101693846847539",
+            "poll_duration": 24,
             "request_change_rep": 1000
+        },
+        "translate": {
+            "text_vote_yes": "Yes",
+            "text_vote_no": "No",
+            "text_vote_title": "Should the proposal $QUESTION be accepted?"
         }
     }
 }
