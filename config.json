@@ -2,7 +2,7 @@
     "admins": [
         "user-id-here"
     ],
-    "starting-rep": 100,
+    "starting_rep": 100,
     "modules": {
         "roles_manager": {
             "enabled": true,

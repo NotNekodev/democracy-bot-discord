@@ -9,7 +9,7 @@ config.load_config();
 db.prepare_db();
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
 });
 
 module.exports = client;
@@ -40,6 +40,22 @@ client.once('ready', async () => {
                 { body: commands }
             );
             console.log(`registered slash commands for guild: ${guild.name}`);
+
+            console.log("test");
+
+            await guild.members.fetch();
+
+            guild.members.cache.forEach(member => {
+                if (!member.user.bot) {
+                    try {
+                        if (db.get_user(member.id) === undefined) {
+                            db.add_user(member.id);
+                        }
+                    } catch (error) {
+                        console.error(`Failed to add user ${member.id} to the database:`, error);
+                    }
+                }
+            });
         }
         console.log('all slash commands registered.');
     } catch (error) {
@@ -74,6 +90,21 @@ client.on('interactionCreate', async interaction => {
         console.error(error);
         await interaction.reply({ content: 'There was an error executing this command.', ephemeral: true });
     }
+});
+
+client.on('guildMemberAdd', async member => {
+    console.log(`new member joined: ${member.id}`);
+    try {
+        if (db.get_user(member.id) === undefined) {
+            await db.add_user(member.id);
+        } else {
+            await db.update_user(member.id, config.get_config().starting_rep);
+            console.log(`updated user ${member.id} with starting rep`);
+        }
+    } catch (error) {
+        console.error(`finger fucker`);
+    }
+
 });
 
 client.login(process.env.BOT_TOKEN);
